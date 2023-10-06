@@ -1,9 +1,9 @@
 const express = require('express')
+const connectDB = require('../backend/config/db');
+const user_routes = require('../backend/routes/user.routes');
+require('dotenv').config()
 const app = express()
 const port = 4000;
-const user_routes = require('../backend/routes/user.routes');
-const connectDB = require('../backend/config/db');
-require('dotenv').config()
 
 connectDB()
 
