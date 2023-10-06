@@ -1,11 +1,14 @@
 const express = require('express')
 const app = express()
 const port = 4000;
-const user_routes = require('../backend/routes/user.routes')
+const user_routes = require('../backend/routes/user.routes');
+const connectDB = require('../backend/config/db');
+require('dotenv').config()
+
+connectDB()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}));
-
 app.use('/user', user_routes)
 
 app.listen(port, () => {
