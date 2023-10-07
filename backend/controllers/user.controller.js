@@ -12,11 +12,20 @@ module.exports.createUser = async (req, res) => {
     }
 }
 
-module.exports.getUser = async (req, res) => {
+module.exports.getAllUser = async (req, res) => {
     console.log(req.body);
     try {
         const users = await userModel.find()
         res.json(users)
+    } catch (error) {
+        res.json(error)
+    }
+}
+module.exports.getUser = async (req, res) => {
+    console.log(req.body);
+    try {
+        const user = await userModel.findById(req.params.id)
+        res.json(user.username)
     } catch (error) {
         res.json(error)
     }
