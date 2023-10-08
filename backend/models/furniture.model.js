@@ -5,7 +5,7 @@ const furnitureSchema = new mongoose.Schema({
     city: {type: String, required: true},
     description: {type: String, required: true},
     price_per_day: {type: Number, required: true},
-    image: {type: String, required: false},
+    image: {data: Buffer, contentType: String, required: false},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 
