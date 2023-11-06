@@ -1,17 +1,24 @@
-const furnitureModel = require("../models/furniture.model")
+const Furniture = require("../models/furniture.model")
 
-module.exports.createFurniture = async (req, res) => {
+
+
+module.exports.createFurnitures = async (req, res) => {
     try {
-        const new_furniture = await furnitureModel.create({...req.body})
-        res.json({message: 'votre furniture a bien été crée'})
+        const { name, description, price_per_day, city} = req.body;
+        const userId = req.params.id
+        const new_furniture = new Furniture({name, description, city, price_per_day, owner: userId})
+        await new_furniture.save()
+        res.json({message: 'votre furniture a bien été crée ' + new_furniture})
+        console.log(new_furniture);
     } catch (error) {
         res.json({error})
+        console.log(error);
     }
 }
 
 module.exports.getAllFurniture = async (req, res) => {
     try {
-        const furniture = await furnitureModel.find();
+        const furniture = await Furniture.find();
         res.json(furniture)
     } catch (error) {
         res.json(error)
@@ -21,7 +28,7 @@ module.exports.getAllFurniture = async (req, res) => {
 module.exports.editFurniture = async (req, res) => {
     try {
         const id = req.params.id;
-        await furnitureModel.findByIdAndUpdate(id, req.body)
+        await Furniture.findByIdAndUpdate(id, req.body)
         res.json({message: "votre furniture a bien été modifié"})
     } catch (error) {
         res.json(error)
@@ -31,7 +38,7 @@ module.exports.editFurniture = async (req, res) => {
 module.exports.deleteFurniture = async (req, res) => {
     try {
         const id = req.params.id;
-        await furnitureModel.findById(id).deleteOne()
+        await Furniture.findById(id).deleteOne()
         res.json({message: "votre furniture a été supprimé"})
     } catch (error) {
         res.json(error)

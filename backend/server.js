@@ -6,8 +6,8 @@ require('dotenv').config()
 const app = express()
 const port = 4000;
 const cors = require('cors')
-const multer = require('multer')
-const multer = multer({dest: 'uploads/'})
+// const multer = require('multer')
+// const multer = multer({dest: 'uploads/'})
 
 const furnitureModel = require('../backend/models/furniture.model') 
 
@@ -16,16 +16,16 @@ const furnitureModel = require('../backend/models/furniture.model')
 connectDB()
 
 // storage
-const Storage = multer.diskStorage({
-    destination: 'uploads',
-    filename: (req, file, cd) => {
-        cd(null, file.originalname)
-    }
-})
+// const Storage = multer.diskStorage({
+//     destination: 'uploads',
+//     filename: (req, file, cd) => {
+//         cd(null, file.originalname)
+//     }
+// })
 
-const upload = multer({
-    storage: Storage
-})
+// const upload = multer({
+//     storage: Storage
+// })
 
 // Middleware
 app.use(express.json())
