@@ -5,8 +5,21 @@ const furnitureSchema = new mongoose.Schema({
     city: {type: String, required: true},
     description: {type: String, required: true},
     price_per_day: {type: Number, required: true},
-    image: {data: Buffer, contentType: String, required: false},
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
-})
+    // image: {type: String, required: true},
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }
+}, {
+    timestamps: true
+    }
 
-module.exports = mongoose.model('Furniture', furnitureSchema)
+)
+const Furniture = mongoose.model('Furniture', furnitureSchema)
+
+// furnitureSchema.pre('remove', async () => {
+//     await Furniture.deleteMany({userId: this._id })
+// })
+
+
+module.exports = Furniture
