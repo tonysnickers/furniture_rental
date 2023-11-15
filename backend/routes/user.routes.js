@@ -7,9 +7,9 @@ const router = express.Router()
 router.get('/', getAllUser)
 router.post('/register', createUser)
 router.post('/login', loginUser)
-router.put('/:id', editUser)
-router.delete('/:id', deleteUser)
 router.get('/:id', getUser)
+router.put('/:id', verifyToken, editUser)
+router.delete('/:id', verifyToken, deleteUser)
 router.get('/:id/furnitures', getAllFurniture)
 
 // Middleware route
