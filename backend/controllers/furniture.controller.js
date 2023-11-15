@@ -1,18 +1,20 @@
-const Furniture = require("../models/furniture.model")
+const { verifyToken } = require("../middleware/auth");
+const Furniture = require("../models/furniture.model");
+const userModel = require("../models/user.model");
 
 
 
-module.exports.createFurnitures = async (req, res) => {
+module.exports.createFurnitures =  async (req, res) => {
+    const { name, description, price_per_day, city} = req.body;
     try {
-        const { name, description, price_per_day, city} = req.body;
-        const userId = req.params.id
-        const new_furniture = new Furniture({name, description, city, price_per_day, owner: userId})
-        await new_furniture.save()
-        res.json({message: 'votre furniture a bien été crée ' + new_furniture})
-        console.log(new_furniture);
+        const user = await userModel.findById(req.user.user_id)
+        const newFurniture = new Furniture({name, description, city, price_per_day, owner: user})
+        await newFurniture.save()
+        user.products.push(newFurniture)
+        await user.save()
+        res.json( newFurniture)
     } catch (error) {
         res.json({error})
-        console.log(error);
     }
 }
 
@@ -25,20 +27,58 @@ module.exports.getAllFurniture = async (req, res) => {
     }
 }
 
-module.exports.editFurniture = async (req, res) => {
+module.exports.getFurniture = async (req, res) => {
+    const furnitureId = req.params.id
     try {
-        const id = req.params.id;
-        await Furniture.findByIdAndUpdate(id, req.body)
-        res.json({message: "votre furniture a bien été modifié"})
+        const furniture = await Furniture.findById(furnitureId)
+        res.status(200).json(furniture)
+    } catch (error) {
+        
+    }
+}
+
+module.exports.getUserFurnitures = async (req, res) => {
+    try {
+        const userFurnitures = await Furniture.find({owner: req.user.user_id}).populate('owner')
+        if (userFurnitures.length < 1) return res.status(404).json({ message: "Vous n'avez pas d'article" });
+        res.json({ userFurnitures });
+    } catch (error) {
+        
+    }
+}
+
+module.exports.editFurniture = async (req, res) => {
+    const furnitureId = req.params.id;
+    try {
+        const furniture = await Furniture.findById(furnitureId);
+
+        if (!furniture) {
+            return res.status(404).send('Article non trouvé');
+        }
+
+        // Vérification des permissions
+        if (req.user.user_id.toString() !== furniture.owner.toString()) {
+            return res.status(403).send('Vous ne pouvez pas modifier un article qui ne vous appartient pas');
+        }
+
+        await Furniture.findByIdAndUpdate(furnitureId, req.body)
+        res.json({message: "votre article a bien été modifié"})
     } catch (error) {
         res.json(error)
     }
 }
 
 module.exports.deleteFurniture = async (req, res) => {
+    const furnitureId = req.params.id;
     try {
-        const id = req.params.id;
-        await Furniture.findById(id).deleteOne()
+        const furniture = await Furniture.findById(furnitureId);
+        if (!furniture) return res.status(404).send('Article non trouvé');
+    
+        // Vérification des permissions
+        if (req.user.user_id.toString() !== furniture.owner.toString()) {
+            return res.status(403).send('Vous ne pouvez pas supprimer un article qui ne vous appartient pas');
+        }
+        await Furniture.findById(furnitureId).deleteOne()
         res.json({message: "votre furniture a été supprimé"})
     } catch (error) {
         res.json(error)

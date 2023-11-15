@@ -5,6 +5,16 @@ const UserSchema = new mongoose.Schema({
     username: {type: String, unique: true, required: false},
     email: {type: String, unique: true, lowercase: true, trim: true, required: true},
     password: {type: String, minlength: 6, required: true},
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user',
+        required: false
+    },
+    products: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+    }],
     token: { type: String },
 }, {
     timestamps: true
