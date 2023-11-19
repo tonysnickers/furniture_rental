@@ -31,6 +31,9 @@ module.exports.getFurniture = async (req, res) => {
     const furnitureId = req.params.id
     try {
         const furniture = await Furniture.findById(furnitureId)
+        if (!furniture) {
+            res.status(404).json(({message: "Article non trouvée"}))
+        }
         res.status(200).json(furniture)
     } catch (error) {
         
@@ -43,7 +46,7 @@ module.exports.getUserFurnitures = async (req, res) => {
         if (userFurnitures.length < 1) return res.status(404).json({ message: "Vous n'avez pas d'article" });
         res.json({ userFurnitures });
     } catch (error) {
-        
+        res.status(400).json(error)
     }
 }
 
