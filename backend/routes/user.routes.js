@@ -9,7 +9,7 @@ router.post('/register', createUser)
 router.post('/login', loginUser)
 router.get('/:id', getUser)
 router.put('/:id', verifyToken, editUser)
-router.delete('/:id', verifyToken, deleteUser)
+router.delete('/', verifyToken, deleteUser)
 router.get('/:id/furnitures', getAllFurniture)
 
 // Middleware route

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const Furniture = require('./furniture.model')
 
 const UserSchema = new mongoose.Schema({
     username: {type: String, unique: true, required: false},
@@ -20,6 +21,5 @@ const UserSchema = new mongoose.Schema({
     timestamps: true
     }
 )
-
 
 module.exports = mongoose.model('User', UserSchema)

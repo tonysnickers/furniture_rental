@@ -103,7 +103,11 @@ module.exports.editUser = async (req, res) => {
 module.exports.deleteUser = async (req, res) => {
     const userId = req.user.user_id
     try {
-        const useTodelete = await userModel.findByIdAndDelete(userId)
+        if (!userId) {
+            return res.status(400).json({ message: 'ID d\'utilisateur non valide' });
+        }
+        await Furniture.deleteMany({ owner: userId });
+        await userModel.findByIdAndDelete(userId)
         res.status(200).json(" ce user a bien été supprimé")
     } catch (error) {
         res.json(error)
