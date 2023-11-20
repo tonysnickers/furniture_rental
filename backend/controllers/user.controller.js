@@ -34,12 +34,12 @@ module.exports.loginUser = async (req, res) => {
     try {
         const {email, password, role} = req.body;
         const user = await userModel.findOne({email})
-        if (!user ) return res.status(400).send(' Votre email est incorrect')
+        if (!user ) return res.status(400).json({auth: false, error: ' Votre email est incorrect'})
         const isPasswordValid = await bcrypt.compare(password, user.password)
-        if (!isPasswordValid) return res.status(400).send('Votre mot de passe est incorrect')
+        if (!isPasswordValid) return res.status(400).json({auth: false, error: 'Votre mot de passe est incorrect'})
 
         const token = jwt.sign(
-            { user_id: user._id, email, role },
+            { user_id: user._id, email, role},
             process.env.TOKEN_KEY,
             {
                 expiresIn: '30min',
