@@ -1,20 +1,27 @@
 import React from 'react';
-import Login from './components/login/Login';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home';
+import { useAuth } from './auth/AuthContext';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
+import Detail from './components/Detail';
 
-function App() {
+
+
+const PrivateRoute = (el: any) => {
+  const { isAuthentify } = useAuth();
+  return isAuthentify ? el : <Navigate to="/login" />;
+};
+
+const App = () => {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/' element={<Home/>}/>
-        </Routes>
-      </BrowserRouter>
-      
-    </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={PrivateRoute(<Home/>) } />
+        <Route path="/detail" element={PrivateRoute(<Detail/>) } />
+      </Routes>
   );
-}
+};
 
 export default App;

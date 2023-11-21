@@ -9,8 +9,6 @@ const cors = require('cors')
 // const multer = require('multer')
 // const multer = multer({dest: 'uploads/'})
 
-const furnitureModel = require('../backend/models/furniture.model') 
-
 
 // connecttion mongo DB
 connectDB()

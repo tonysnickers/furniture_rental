@@ -8,38 +8,38 @@ require('dotenv').config()
 
 
 module.exports.createUser = async (req, res) => {
-    const {username, email, password, role} = req.body
+    const {username, email, password} = req.body
     try {
-        if (!(username && password && email)) return res.status(400).send('tout les champs sont obligatoires')
+        if (!( password && email)) return res.status(400).send({ registred: false, error: 'tout les champs sont obligatoires'})
 
         const oldUser = await userModel.findOne({email})
-        if (oldUser) return res.status(400).send('cette utilisateur existe déja')
+        if (oldUser) return res.status(400).send( {registred: false, error: 'Cette utilisateur existe déja !!'})
 
         const encryptedPassword = await bcrypt.hash(password, 10);
-        const newUser = await userModel.create({username, email, password: encryptedPassword, role})
+        const user = await userModel.create({username, email, password: encryptedPassword})
         // Create token
         const token = jwt.sign(
-            { user_id: newUser._id, email, role },
+            { user_id: user._id, email },
             process.env.TOKEN_KEY,
         );
-        newUser.token = token;
-        res.status(200).json( newUser + 'crée avec succes')
+        user.token = token;
+        res.status(200).json({ registred: true, user} )
     } catch (error) {
-        res.json(error)
+        res.json({registred: false, error})
     }
 }
 
 
 module.exports.loginUser = async (req, res) => {
     try {
-        const {email, password, role} = req.body;
+        const {email, password} = req.body;
         const user = await userModel.findOne({email})
         if (!user ) return res.status(400).json({auth: false, error: ' Votre email est incorrect'})
         const isPasswordValid = await bcrypt.compare(password, user.password)
         if (!isPasswordValid) return res.status(400).json({auth: false, error: 'Votre mot de passe est incorrect'})
 
         const token = jwt.sign(
-            { user_id: user._id, email, role},
+            { user_id: user._id, email },
             process.env.TOKEN_KEY,
             {
                 expiresIn: '30min',

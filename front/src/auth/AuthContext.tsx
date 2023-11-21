@@ -1,14 +1,27 @@
-import React, {createContext, useState} from 'react'
+import React, {ReactNode, createContext, useContext, useState} from 'react'
 
-const AuthenContext = createContext()
+interface AuthContextValue {
+  isAuthentify: boolean;
+  setIsAuthentify: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export const AuthProvider = ({children}) => {
-        const [isAuthentify, setIsAuthentify] = useState<Boolean>(false)
+const AuthenContext = createContext<AuthContextValue | undefined>(undefined);
+
+
+interface AuthProviderIpros {
+  children: ReactNode
+} 
+
+export const AuthProvider = ({children}: AuthProviderIpros) => {
+      const [isAuthentify, setIsAuthentify] = useState<boolean>(false)        
 
   return (
     <AuthenContext.Provider value={{isAuthentify, setIsAuthentify}}>
-        {children}
+      {children}
     </AuthenContext.Provider>
   )
 }
 
+export const useAuth = () => {
+  return useContext(AuthenContext) || { isAuthentify: false, setIsAuthentify: () => {} };
+}

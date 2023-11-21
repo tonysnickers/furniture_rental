@@ -17,9 +17,6 @@ const furnitureSchema = new mongoose.Schema({
 )
 const Furniture = mongoose.model('Furniture', furnitureSchema)
 
-// furnitureSchema.pre('remove', async () => {
-//     await Furniture.deleteMany({userId: this._id })
-// })
 
 
 module.exports = Furniture
