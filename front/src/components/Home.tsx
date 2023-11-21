@@ -1,6 +1,13 @@
-import React from 'react'
+
 
 const Home = () => {
+    // const navigate = useNavigate()
+    // const {isAuthentify} = useAuth()
+    // useEffect(() => {
+    //     if (!isAuthentify) {
+    //         navigate('/login')
+    //     }
+    // }, [isAuthentify, navigate])
     return (
         <div> welcome Home</div>
     )
