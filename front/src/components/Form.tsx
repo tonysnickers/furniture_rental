@@ -17,7 +17,7 @@ interface UserDataIPros {
 const Form = ({email, password, setEmail, setPassword, error, handleSubmit, username, setUserName}: UserDataIPros) => {
     const [formTitle, setFormTitle] = useState<string>('')
     const url = window.location.pathname
-    
+
     useEffect(() => {
         switch (url) {
             case '/login':
@@ -66,14 +66,14 @@ const Form = ({email, password, setEmail, setPassword, error, handleSubmit, user
                     }}
                     onChange={ (e) => setPassword(e.target.value)}
                 />
+                {error && <Typography color="error">{error}</Typography>}
                 <Button onClick={handleSubmit} variant="contained" color="primary" sx={{m: '0 auto', width: 100, textAlign: 'center'}}>
                     {formTitle}
                 </Button>
-                {error && <Typography color="error">{error}</Typography>}
                 {formTitle !== FORMTITLE.Login ? (
-                    <Typography component={Link} to='/login'>Login</Typography>
+                    <Typography sx={{textDecoration:'none'}} component={Link} to='/login'>Login</Typography>
                 ) : (
-                    <Typography component={Link} to='/register'>S'inscrire</Typography>
+                    <Typography sx={{textDecoration:'none'}} component={Link} to='/register'>S'inscrire</Typography>
                 )}
             </Box>
         </Box>

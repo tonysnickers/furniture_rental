@@ -13,7 +13,7 @@ interface AuthProviderIpros {
 } 
 
 export const AuthProvider = ({children}: AuthProviderIpros) => {
-      const [isAuthentify, setIsAuthentify] = useState<boolean>(false)        
+    const [isAuthentify, setIsAuthentify] = useState<boolean>(false)        
 
   return (
     <AuthenContext.Provider value={{isAuthentify, setIsAuthentify}}>
