@@ -1,20 +1,43 @@
 const { verifyToken } = require("../middleware/auth");
 const Furniture = require("../models/furniture.model");
 const userModel = require("../models/user.model");
-
+const cloudinary = require('../cloudinary/cloudinary');
 
 
 module.exports.createFurnitures =  async (req, res) => {
     const { name, description, price_per_day, city} = req.body;
+    const user = await userModel.findById(req.user.user_id)
     try {
-        const user = await userModel.findById(req.user.user_id)
-        const newFurniture = new Furniture({name, description, city, price_per_day, owner: user})
-        await newFurniture.save()
-        user.products.push(newFurniture)
-        await user.save()
-        res.json( newFurniture)
+        if (req.files && req.files.length > 0) {
+            const imageUploadPromises = req.files.map(file =>
+                new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload_stream({ folder: 'img_furnitures' }, (error, result) => {
+                        if (error) {
+                            reject('Erreur lors de l\'envoi de l\'image sur Cloudinary');
+                        } else {
+                            resolve(result.url);
+                        }
+                    }).end(file.buffer);
+                })
+            );
+            const imageUrls = await Promise.all(imageUploadPromises);
+            const newFurniture = await Furniture.create({
+                name,
+                description,
+                images: imageUrls, 
+                city,
+                price_per_day,
+                owner: user._id,
+            });
+
+            user.products.push(newFurniture);
+            await user.save();
+            res.json(newFurniture);
+        } else {
+            res.json('Veuillez ajouter des photos de vos articles');
+        }
     } catch (error) {
-        res.json({error})
+        res.status(500).json({ error: 'Erreur lors de la création de furniture' });
     }
 }
 
