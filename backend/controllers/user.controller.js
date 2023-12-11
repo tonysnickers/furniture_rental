@@ -16,12 +16,12 @@ module.exports.createUser = async (req, res) => {
     try {
         if (!( password && email)) return res.status(400).send({ registred: false, error: 'tout les champs sont obligatoires'})
         if (oldUser) return res.status(400).send( {registred: false, error: 'Cette utilisateur existe déja !!'})
-        await cloudinary.uploader.upload_stream({folder: 'User_Avatar'}, async (error, result) => {
+        cloudinary.uploader.upload_stream({folder: 'User_Avatar'}, (error, result) => {
             if (error) {
                 return res.status(500).json({ registred: false, error: 'Erreur lors de l\'envoi de l\'image sur Cloudinary' });
             } 
-            const encryptedPassword = await bcrypt.hash(password, 10);
-            const user = await userModel.create({username, email, avatar: result.url, password: encryptedPassword})
+            const encryptedPassword = bcrypt.hash(password, 10);
+            const user =  userModel.create({username, email, avatar: result.url, password: encryptedPassword})
             
             // Create token
             const token = jwt.sign(
