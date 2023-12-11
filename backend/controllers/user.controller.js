@@ -2,28 +2,35 @@ const userModel = require('../models/user.model');
 const Furniture = require("../models/furniture.model")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const sharp = require('sharp');
 require('dotenv').config()
+const cloudinary = require('../cloudinary/cloudinary');
+
 
 
 
 
 module.exports.createUser = async (req, res) => {
     const {username, email, password} = req.body
+    const oldUser = await userModel.findOne({email})
     try {
         if (!( password && email)) return res.status(400).send({ registred: false, error: 'tout les champs sont obligatoires'})
-
-        const oldUser = await userModel.findOne({email})
         if (oldUser) return res.status(400).send( {registred: false, error: 'Cette utilisateur existe déja !!'})
-
-        const encryptedPassword = await bcrypt.hash(password, 10);
-        const user = await userModel.create({username, email, password: encryptedPassword})
-        // Create token
-        const token = jwt.sign(
-            { user_id: user._id, email },
-            process.env.TOKEN_KEY,
-        );
-        user.token = token;
-        res.status(200).json({ registred: true, user} )
+        await cloudinary.uploader.upload_stream({folder: 'User_Avatar'}, async (error, result) => {
+            if (error) {
+                return res.status(500).json({ registred: false, error: 'Erreur lors de l\'envoi de l\'image sur Cloudinary' });
+            } 
+            const encryptedPassword = await bcrypt.hash(password, 10);
+            const user = await userModel.create({username, email, avatar: result.url, password: encryptedPassword})
+            
+            // Create token
+            const token = jwt.sign(
+                { user_id: user._id, email },
+                process.env.TOKEN_KEY,
+            );
+            user.token = token;
+            res.status(200).json({ registred: true, user} )
+        }).end(req.file.buffer);
     } catch (error) {
         res.json({registred: false, error})
     }
@@ -90,15 +97,31 @@ module.exports.editUser = async (req, res) => {
         if (password !== undefined) {
             updatedFields.password = await bcrypt.hash(password, 10);
         }
-        const user = await userModel.findByIdAndUpdate(userId, updatedFields, { new: true })
-        if (!user) {
-            res.json('Utilisateur non trouvé')
-        } 
-        res.status(200).json(user)
+        if (req.file) {
+            cloudinary.uploader.upload_stream({ folder: 'User_Avatar' }, async (error, result) => {
+                if (error) {
+                    return res.status(500).json({ success: false, error: 'Erreur lors de l\'envoi de la nouvelle image sur Cloudinary' });
+                }
+                updatedFields.avatar = result.url
+                const user = await userModel.findByIdAndUpdate( userId, updatedFields , { new: true });
+                if (!user) {
+                    res.json('Utilisateur non trouvé')
+                } 
+                res.status(201).json({success: true, message: 'ton profil a été mise à jour', user})
+            }).end(req.file.buffer);
+            }
+        else {
+            const user = await userModel.findByIdAndUpdate( userId, updatedFields, { new: true });
+            if (!user) {
+                    res.json('Utilisateur non trouvé')
+                } 
+                res.status(201).json({success: true, message: 'ton profil a été mise à jour', user})
+        }
     } catch (error) {
-        res.json(error)
+        res.status(500).json({success: false, message: 'Une erreur est survenue veuillez réessayer'})
     }
 }
+
 
 module.exports.deleteUser = async (req, res) => {
     const userId = req.user.user_id
