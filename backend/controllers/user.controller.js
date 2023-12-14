@@ -16,19 +16,18 @@ module.exports.createUser = async (req, res) => {
     try {
         if (!( password && email)) return res.status(400).send({ registred: false, error: 'tout les champs sont obligatoires'})
         if (oldUser) return res.status(400).send( {registred: false, error: 'Cette utilisateur existe déja !!'})
-        cloudinary.uploader.upload_stream({folder: 'User_Avatar'}, (error, result) => {
+        cloudinary.uploader.upload_stream({folder: 'User_Avatar'}, async (error, result) => {
             if (error) {
                 return res.status(500).json({ registred: false, error: 'Erreur lors de l\'envoi de l\'image sur Cloudinary' });
             } 
-            const encryptedPassword = bcrypt.hash(password, 10);
-            const user =  userModel.create({username, email, avatar: result.url, password: encryptedPassword})
-            
+            const encryptedPassword = await bcrypt.hash(String(password), 10);
+            const user = await userModel.create({username, email, avatar: result.url, password: encryptedPassword})
             // Create token
-            const token = jwt.sign(
-                { user_id: user._id, email },
-                process.env.TOKEN_KEY,
-            );
-            user.token = token;
+            // const token = jwt.sign(
+            //     { user_id: user._id, email },
+            //     process.env.TOKEN_KEY,
+            // );
+            // user.token = token;
             res.status(200).json({ registred: true, user} )
         }).end(req.file.buffer);
     } catch (error) {
@@ -49,7 +48,7 @@ module.exports.loginUser = async (req, res) => {
             { user_id: user._id, email },
             process.env.TOKEN_KEY,
             {
-                expiresIn: '30min',
+                expiresIn: '30h',
             }
         );
         user.token = token
