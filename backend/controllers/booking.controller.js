@@ -1,4 +1,4 @@
-const bookingModel = require("../models/booking.model");
+const Booking = require("../models/booking.model");
 const Furniture = require("../models/furniture.model");
 const userModel = require("../models/user.model");
 
@@ -8,7 +8,7 @@ module.exports.createBooking = async (req, res) => {
     console.log(userId);
     try {
         const product = await Furniture.findById(productId)
-            const booking = await bookingModel.create({
+            const booking = await Booking.create({
                 start_date: start_date,
                 end_date: end_date,
                 total_price: calculateTotalPrice(start_date, end_date, product.price_per_day),
@@ -27,5 +27,20 @@ module.exports.createBooking = async (req, res) => {
         const numberOfDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
         const pricePerDay = total_price * numberOfDays;
         return pricePerDay;
+    }
+}
+
+module.exports.getAllBookings = async (req, res) => {
+    const userId = await userModel.findById(req.user.user_id)
+
+    try {
+        if (userId.role === "admin") {
+            const bookings = await Booking.find()
+            res.status(200).json(bookings)
+        } else {
+            res.json({message: "vous n'avez acces aux booking"})
+        }
+    } catch (error) {
+        res.status(400).json({message: "Impossible d'accèder aux booking"})
     }
 }

@@ -7,9 +7,6 @@ require('dotenv').config()
 const cloudinary = require('../cloudinary/cloudinary');
 
 
-
-
-
 module.exports.createUser = async (req, res) => {
     const {username, email, password} = req.body
     const oldUser = await userModel.findOne({email})
