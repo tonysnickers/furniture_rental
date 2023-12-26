@@ -48,7 +48,7 @@ module.exports.createFurnitures =  async (req, res) => {
 module.exports.getAllFurniture = async (req, res) => {
     try {
         const furniture = await Furniture.find();
-        res.json(furniture)
+        res.json({furniture})
     } catch (error) {
         res.json(error)
     }
