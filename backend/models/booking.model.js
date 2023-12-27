@@ -5,7 +5,7 @@ const BookingSchema = new mongoose.Schema({
     end_date: {type: Date,  required: true},
     total_price: {type: Number},
     productId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Furniture' }],
-    ownerId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, {
     timestamps: true
     }

@@ -5,9 +5,15 @@ const userModel = require("../models/user.model");
 module.exports.createBooking = async (req, res) => {
     const { start_date, end_date, productId} = req.body;
     const userId = await userModel.findById(req.user.user_id)
-    console.log(userId);
+    const bb = await Booking.find()
     try {
-        const product = await Furniture.findById(productId)
+        if (start_date === Booking.startDate) {
+            return "veuillez changer la date de départ"
+        } else if (end_date === Booking.end_date) {
+            return "veuillez changer la date de retour"
+            
+        } else {
+            const product = await Furniture.findById(productId)
             const booking = await Booking.create({
                 start_date: start_date,
                 end_date: end_date,
@@ -16,6 +22,7 @@ module.exports.createBooking = async (req, res) => {
                 productId: productId
             })
             res.json({booked: true, message: "votre booking a bien été enregistré", booking})
+        }
     } catch (error) {
         res.status(500).json({booked: false, message: "erreur lors du booking"})
     }
@@ -42,5 +49,19 @@ module.exports.getAllBookings = async (req, res) => {
         }
     } catch (error) {
         res.status(400).json({message: "Impossible d'accèder aux booking"})
+    }
+}
+
+module.exports.getBooking = async (req, res) => {
+    try {
+        const bookingId = req.params.id
+        const userId = req.user.user_id
+        const bookings = await Booking.find({ _id: bookingId, ownerId: userId })
+        if (!bookings) {
+            res.json({message: "Vous n'avez pas de booking"})
+        }
+        res.status(200).json(bookings)
+    } catch (error) {
+        res.status(400).json(error)
     }
 }
