@@ -50,7 +50,7 @@ module.exports.getAllFurniture = async (req, res) => {
         const furniture = await Furniture.find();
         res.json({furniture})
     } catch (error) {
-        res.json(error)
+        res.status(400).json(error)
     }
 }
 
@@ -63,7 +63,7 @@ module.exports.getFurniture = async (req, res) => {
         }
         res.status(200).json(furniture)
     } catch (error) {
-        
+        res.status(400).json(error)
     }
 }
 
@@ -127,7 +127,6 @@ module.exports.editFurniture = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, error: 'Erreur lors de la mise à jour du produit' });
     }
-    
 }
 
 module.exports.deleteFurniture = async (req, res) => {
@@ -143,7 +142,7 @@ module.exports.deleteFurniture = async (req, res) => {
         await Furniture.findById(furnitureId).deleteOne()
         res.json({message: "votre furniture a été supprimé"})
     } catch (error) {
-        res.json(error)
+        res.status(400).json(error)
     }
 }
 
