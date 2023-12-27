@@ -65,3 +65,18 @@ module.exports.getBooking = async (req, res) => {
         res.status(400).json(error)
     }
 }
+
+module.exports.getUserBookings = async (req, res) => {
+    try {
+        const userId = req.user.user_id
+        console.log(userId);
+        const bookings = await Booking.find({ ownerId: userId })
+        if (!bookings) {
+            res.json({message: "Vous n'avez pas de booking"})
+        }
+        res.status(200).json(bookings)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
