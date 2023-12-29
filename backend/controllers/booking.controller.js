@@ -79,6 +79,7 @@ module.exports.editBooking = async (req, res) => {
     let updatedFields = {}
     try {
         const booking = await Booking.find({_id: bookingId, ownerId: userId})
+        
         if (!booking) res.json({message: "Réservation non trouvé"})
 
         const product = await Furniture.findById(booking[0].productId[0])
