@@ -9,7 +9,7 @@ router.get('/', getAllUser)
 router.post('/register', uploads.single('avatar'), createUser)
 router.post('/login', loginUser)
 router.get('/:id', getUser)
-router.put('/', verifyToken, uploads.single('avatar'),  editUser)
+router.put('/edit', verifyToken, uploads.single('avatar'),  editUser)
 router.delete('/', verifyToken, deleteUser)
 router.get('/:id/furnitures', getAllFurniture)
 

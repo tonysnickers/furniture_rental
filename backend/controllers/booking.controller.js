@@ -33,7 +33,7 @@ module.exports.getAllBookings = async (req, res) => {
     const userId = await userModel.findById(req.user.user_id)
 
     try {
-        if (userId.role === "admin") {
+        if (userId || userId.role === "admin") {
             const bookings = await Booking.find()
             res.status(200).json(bookings)
         } else {
@@ -48,11 +48,11 @@ module.exports.getBooking = async (req, res) => {
     try {
         const bookingId = req.params.id
         const userId = req.user.user_id
-        const bookings = await Booking.find({ _id: bookingId, ownerId: userId })
-        if (!bookings) {
+        const booking = await Booking.find({ _id: bookingId, ownerId: userId })
+        if (!booking) {
             res.json({message: "Vous n'avez pas de réservation"})
         }
-        res.status(200).json(bookings)
+        res.status(200).json(booking)
     } catch (error) {
         res.status(400).json(error)
     }
@@ -61,7 +61,6 @@ module.exports.getBooking = async (req, res) => {
 module.exports.getUserBookings = async (req, res) => {
     try {
         const userId = req.user.user_id
-        console.log(userId);
         const bookings = await Booking.find({ ownerId: userId })
         if (!bookings) {
             res.json({message: "Vous n'avez pas de réservation"})
@@ -79,10 +78,12 @@ module.exports.editBooking = async (req, res) => {
     let updatedFields = {}
     try {
         const booking = await Booking.find({_id: bookingId, ownerId: userId})
-        if (!booking) res.json({message: "Réservation non trouvé"})
+        if (!booking.length) {
+            return res.json({message: "Réservation non trouvé"})
+        } 
 
-        const product = await Furniture.findById(booking[0].productId[0])
-        if (booking || (user.role === "admin" && booking)) {
+        const product = await Furniture.findById(booking[0].productId)
+
             if (start_date) {
                 updatedFields.start_date = start_date
                 if (!end_date) updatedFields.end_date = booking[0].end_date
@@ -103,9 +104,24 @@ module.exports.editBooking = async (req, res) => {
 
             const newBooking = await Booking.findByIdAndUpdate(bookingId, updatedFields, { new: true })
             res.status(201).json({success: true, message: 'Votre réservation a été mise à jour', newBooking})
-        } 
     } catch (error) {
         res.status(500).json({ success: false, message: 'Une erreur est survenue lors de la modification votre réservation' });
+    }
+}
+
+module.exports.deleteBooking = async (req, res) => {
+    const userId = req.user.user_id
+    const bookingId = req.params.id
+    try {
+        const booking = await Booking.findByIdAndDelete({_id: bookingId, ownerId: userId});
+        if (!booking) {
+            return res.status(404).json({ message: "Réservation non trouvée." });
+        }
+
+        res.json({ message: "Votre réservation a été supprimée avec succès." }); 
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur lors de la suppression de la réservation.' });
+        
     }
 }
 
