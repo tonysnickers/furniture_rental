@@ -7,10 +7,10 @@ interface UserDataIPros {
     email: string,
     password: string,
     username?: string,
-    error: string | null,
+    error: string | null | undefined,
     setEmail: React.Dispatch<React.SetStateAction<string>>,
     setPassword: React.Dispatch<React.SetStateAction<string>>,
-    setUserName: React.Dispatch<React.SetStateAction<string>>,
+    setUserName?: React.Dispatch<React.SetStateAction<string>>,
     handleSubmit: () => void
 }
 
@@ -29,6 +29,7 @@ const Form = ({email, password, setEmail, setPassword, error, handleSubmit, user
         
         }
     },[url])
+    
 
     return (
         <Box sx={{display: 'flex', flexDirection: 'column', mt: '140px',  alignItems: 'center'}}>

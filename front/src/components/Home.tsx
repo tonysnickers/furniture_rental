@@ -1,22 +1,23 @@
-import { Box,  } from "@mui/material"
+import { Box } from "@mui/material"
 import Header from "./Header"
 
 
 const Home = () => {
 
     return (
-        <Box >
+        <Box>
             <Header/>
             <Box 
                 sx={{
-                        backgroundImage: 'url(https://static.asianpaints.com/content/dam/asianpaintsbeautifulhomes/home-decor-advice/guides-and-how-tos/choosing-living-room-furniture/Title-living-room-interior-design.jpg)',
+                        backgroundImage: "url(https://res.cloudinary.com/do9ctd3bd/image/upload/v1704027689/ef6b1b08253942b8af35e2793f962ab7_ztntlj.avif)",
                         backgroundSize: 'cover',
                         backgroundPosition: 'bottom',
                         backgroundRepeat: 'no-repeat',
                         width: '100%',
-                        height: '70vh',
+                        height: '80vh',
                 }}
                 >
+                    ezfkjhjkfes
             </Box>
         </Box>
     )

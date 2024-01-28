@@ -1,12 +1,15 @@
 import { Logout, Settings, Checklist, Article, Login } from '@mui/icons-material';
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
-import { useAuth } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 const AccountMenu = () => {
     const { isAuthentify } = useAuth();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const navigate = useNavigate()
+
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -15,6 +18,12 @@ const AccountMenu = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleNavigate = (link: string) => {
+        navigate(link)
+        setAnchorEl(null);
+
+    }
     console.log(isAuthentify);
     
 
@@ -95,7 +104,7 @@ const AccountMenu = () => {
                         Settings
                     </MenuItem>
                     {isAuthentify ? (
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleNavigate('/login')}>
                             <ListItemIcon>
                                 <Logout fontSize="small" />
                             </ListItemIcon>
