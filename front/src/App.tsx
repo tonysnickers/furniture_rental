@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home';
-import { useAuth } from './auth/AuthContext';
 import Login from './auth/login/Login';
 import Register from './auth/register/Register';
 import Detail from './components/Detail';
+import { useAuth } from './context/authContext';
 
 
 
@@ -13,6 +13,7 @@ const PrivateRoute = (el: any) => {
   return isAuthentify ? el : <Navigate to="/login" />;
 };
 
+
 const App = () => {
   return (
       <Routes>
@@ -20,7 +21,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home/> } />
         {/* <Route path="/furnitures" element={}  /> */}
-        <Route path="/detail" element={PrivateRoute(<Detail/>) } />
+        <Route path="/details" element={PrivateRoute(<Detail/>) } />
       </Routes>
   );
 };

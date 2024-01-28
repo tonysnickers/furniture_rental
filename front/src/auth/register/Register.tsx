@@ -2,8 +2,8 @@ import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import Form from '../../components/Form'
 import axios from 'axios'
-import { useAuth } from '../AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/authContext'
 
 const Register = () => {
     const [email, setEmail] = useState<string>('')
