@@ -12,28 +12,32 @@ const Register = () => {
     const [error, setError] = useState<string | null>(null);
     const {setIsAuthentify, isAuthentify} = useAuth()
     const navigate = useNavigate()
+    console.log(email);
+    console.log(password);
+    console.log(username);
 
-    const handleSubmit =  () => {
+    const handleSubmit = async () => {
         if (!email || !password) {
             setError('Tous les champs sont obligatoires');
             return;
         }
 
-        axios.post('http://localhost:4000/user/register', { email, password, username })
+        try {
+            axios.post('http://localhost:4000/user/register', { email, password, username })
             .then(res => {
-                const token = res.data?.user?.token
-                localStorage.setItem('token', token)
+                // const token = res.data?.user?.token
+                // localStorage.setItem('token', token)
                 setIsAuthentify(res.data.registred);
                 if (isAuthentify) {
                     navigate('/')
                 }
             })
-            .catch(error => {
-                console.error(error.response?.data);
-                setError(error.response?.data.error);
-            });
-            setEmail('')
-            setPassword('')
+        } catch(error)  {
+            console.error(error);
+            setError('Une erreur s\'est produite lors de la création de l\'utilisateur.');
+        };
+        setEmail('')
+        setPassword('')
     }
 
     return (

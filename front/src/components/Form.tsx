@@ -6,11 +6,11 @@ import { FORMTITLE } from '../models/FormTitle'
 interface UserDataIPros {
     email: string,
     password: string,
-    username?: string,
+    username: string,
     error: string | null | undefined,
     setEmail: React.Dispatch<React.SetStateAction<string>>,
     setPassword: React.Dispatch<React.SetStateAction<string>>,
-    setUserName?: React.Dispatch<React.SetStateAction<string>>,
+    setUserName: React.Dispatch<React.SetStateAction<string>>,
     handleSubmit: () => void
 }
 
@@ -26,7 +26,6 @@ const Form = ({email, password, setEmail, setPassword, error, handleSubmit, user
             case '/register':
                 setFormTitle(`${FORMTITLE.Register}`)
                 break;
-        
         }
     },[url])
     
@@ -35,7 +34,7 @@ const Form = ({email, password, setEmail, setPassword, error, handleSubmit, user
         <Box sx={{display: 'flex', flexDirection: 'column', mt: '140px',  alignItems: 'center'}}>
             <Box sx={{display: 'flex', flexDirection: 'column',  width: 500, backgroundColor: '#00284b', px: 3, py: 5, borderRadius: 3}}>
             <Typography sx={{ textAlign: 'center', }}>{formTitle}</Typography>
-            {formTitle !== FORMTITLE.Login && (
+            {formTitle === FORMTITLE.Register && (
                 <TextField
                     error
                     id="outlined-error"

@@ -1,7 +1,7 @@
-import { Logout, Settings, Checklist, Article, Login } from '@mui/icons-material';
+import { Logout, Settings, Checklist, Article } from '@mui/icons-material';
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 
 const AccountMenu = () => {
@@ -73,7 +73,6 @@ const AccountMenu = () => {
                                 zIndex: 0,
                             },
                         }
-
                     }
                 }} 
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -111,9 +110,9 @@ const AccountMenu = () => {
                                 Se déconnecter
                         </MenuItem>
                     ) : (
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem component={NavLink} to="/login" onClick={handleClose}>
                             <ListItemIcon>
-                                <Logout fontSize="small" />
+                                <Logout  fontSize="small" />
                             </ListItemIcon>
                                 Se connecter
                         </MenuItem> 
