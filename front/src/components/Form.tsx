@@ -14,7 +14,8 @@ interface UserDataIPros {
     handleSubmit: () => void
 }
 
-const Form = ({email, password, setEmail, setPassword, error, handleSubmit, username, setUserName}: UserDataIPros) => {
+const Form = (props: UserDataIPros) => {
+    const {email, password, setEmail, setPassword, error, handleSubmit, username, setUserName} = props
     const [formTitle, setFormTitle] = useState<string>('')
     const url = window.location.pathname
 

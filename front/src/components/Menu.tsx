@@ -2,7 +2,7 @@ import { Logout, Settings, Checklist, Article } from '@mui/icons-material';
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../hooks/use-auth';
 
 const AccountMenu = () => {
     const { isAuthentify } = useAuth();
