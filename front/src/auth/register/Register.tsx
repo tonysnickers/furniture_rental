@@ -1,43 +1,33 @@
 import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import Form from '../../components/Form'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../hooks/use-auth'
+// import { useAuth } from '../../hooks/use-auth'
+import { UseRegister } from '../../hooks/use-register'
 
 const Register = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [username, setUsername] = useState<string>('')
     const [error, setError] = useState<string | null>(null);
-    const {setIsAuthentify, isAuthentify} = useAuth()
+    // const {setIsAuthentify, isAuthentify} = useAuth()
     const navigate = useNavigate()
-    console.log(email);
-    console.log(password);
-    console.log(username);
+    const {register } = UseRegister()
 
     const handleSubmit = async () => {
         if (!email || !password) {
             setError('Tous les champs sont obligatoires');
             return;
         }
-
         try {
-            axios.post('http://localhost:4000/user/register', { email, password, username })
-            .then(res => {
-                // const token = res.data?.user?.token
-                // localStorage.setItem('token', token)
-                setIsAuthentify(res.data.registred);
-                if (isAuthentify) {
-                    navigate('/')
-                }
-            })
+            await register({email, password, username})
+            setEmail('')
+            setPassword('')
+            navigate("/login")
         } catch(error)  {
             console.error(error);
-            setError('Une erreur s\'est produite lors de la création de l\'utilisateur.');
+            setError('Une erreur s\'est produite ');
         };
-        setEmail('')
-        setPassword('')
     }
 
     return (
