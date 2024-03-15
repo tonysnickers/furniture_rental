@@ -7,6 +7,3 @@ interface AuthContextValue {
 
 export const AuthenContext = createContext<AuthContextValue>({ isAuthentify: false, setIsAuthentify: () => {} });
 
-export const useAuth = () => {
-    return useContext(AuthenContext);
-}

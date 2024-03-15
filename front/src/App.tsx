@@ -4,14 +4,17 @@ import Home from './components/Home';
 import Login from './auth/login/Login';
 import Register from './auth/register/Register';
 import Detail from './components/Detail';
-import { useAuth } from './context/authContext';
+import { useAuth } from './hooks/use-auth';
 
 
 
 const PrivateRoute = (el: any) => {  
   const { isAuthentify } = useAuth();
+  console.log(isAuthentify);
   return isAuthentify ? el : <Navigate to="/login" />;
 };
+
+
 
 
 const App = () => {

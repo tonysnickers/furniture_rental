@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Form from '../../components/Form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/authContext'
+import { useAuth } from '../../hooks/use-auth'
 
 const Register = () => {
     const [email, setEmail] = useState<string>('')
