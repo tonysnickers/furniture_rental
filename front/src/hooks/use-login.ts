@@ -15,7 +15,5 @@ const login = async (email: string, password: string ) => {
 
 export const useLogin =  ()   => {
     
-    return {
-        login
-    }
+    return { login }
 }
