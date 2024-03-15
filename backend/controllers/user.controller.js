@@ -8,30 +8,31 @@ const cloudinary = require('../cloudinary/cloudinary');
 
 
 module.exports.createUser = async (req, res) => {
-    console.log(req.body);
     try {
         const {username, email, password} = req.body
         const existingUser = await userModel.findOne({email})
-        console.log(existingUser);
-
         if (existingUser) {
             return res.status(400).json({ registred: false, error: 'Cet utilisateur existe déjà !!' });
         } 
-        const result = await new Promise((resolve, reject) => {
-            cloudinary.uploader.upload_stream({ folder: 'User_Avatar' }, (error, result) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            }).end(req.file.buffer);
-        });
-        console.log(result);
-
+        if (req.file) {
+            const result = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload_stream({ folder: 'User_Avatar' }, (error, result) => {
+                    if (error) {
+                        reject('error cloudinary');
+                    } else {
+                        resolve(result);
+                    }
+                }).end(req.file.buffer);
+            });
             const encryptedPassword = await bcrypt.hash(String(password), 10);
-            const user = await userModel.create({username, email, avatar: result.url, password: encryptedPassword})
-            console.log(user);
+            const user = await userModel.create({username, email,avatar: result.url, password: encryptedPassword})
             res.status(200).json({ registred: true, user });
+        } else {
+            const encryptedPassword = await bcrypt.hash(String(password), 10);
+            const user = await userModel.create({username, email, password: encryptedPassword})
+            res.status(200).json({ registred: true, user });
+        }
+
     } catch (error) {
         res.status(500).json({ registred: false, error: 'Une erreur s\'est produite lors de la création de l\'utilisateur.'});
     }
