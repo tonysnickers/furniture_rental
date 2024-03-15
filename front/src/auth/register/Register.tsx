@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import Form from '../../components/Form'
 import { useNavigate } from 'react-router-dom'
-// import { useAuth } from '../../hooks/use-auth'
 import { UseRegister } from '../../hooks/use-register'
 
 const Register = () => {
@@ -10,7 +9,6 @@ const Register = () => {
     const [password, setPassword] = useState<string>('')
     const [username, setUsername] = useState<string>('')
     const [error, setError] = useState<string | null>(null);
-    // const {setIsAuthentify, isAuthentify} = useAuth()
     const navigate = useNavigate()
     const {register } = UseRegister()
 
@@ -33,7 +31,6 @@ const Register = () => {
     return (
         <Box>
             <Form email={email} setEmail={setEmail} password={password} setPassword={setPassword} error={error} handleSubmit={handleSubmit} username={username} setUserName={setUsername}/>
-
         </Box>
         
     )
