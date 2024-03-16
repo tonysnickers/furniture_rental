@@ -3,12 +3,11 @@ import axios from "axios";
 interface Register {
     email: string,
     password: string, 
-    username: string
 }
 
-const register = async ({email, password, username}: Register) => {
+const register = async ({email, password, }: Register) => {
     try {
-        const response = axios.post('http://localhost:4000/user/register', { email, password, username })
+        const response = axios.post('http://localhost:4000/user/register', { email, password })
         .then(res => {
             return res.data
         })
