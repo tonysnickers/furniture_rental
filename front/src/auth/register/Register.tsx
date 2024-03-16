@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import Form from '../../components/Form'
 import { useNavigate } from 'react-router-dom'
@@ -7,7 +6,6 @@ import { UseRegister } from '../../hooks/use-register'
 const Register = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [username, setUsername] = useState<string>('')
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate()
     const {register } = UseRegister()
@@ -18,7 +16,7 @@ const Register = () => {
             return;
         }
         try {
-            await register({email, password, username})
+            await register({email, password})
             setEmail('')
             setPassword('')
             navigate("/login")
@@ -29,9 +27,9 @@ const Register = () => {
     }
 
     return (
-        <Box>
-            <Form email={email} setEmail={setEmail} password={password} setPassword={setPassword} error={error} handleSubmit={handleSubmit} username={username} setUserName={setUsername}/>
-        </Box>
+        <>
+            <Form email={email} setEmail={setEmail} password={password} setPassword={setPassword} error={error} handleSubmit={handleSubmit} />
+        </>
         
     )
 }
