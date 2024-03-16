@@ -9,7 +9,6 @@ const Login = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [error, setError] = useState<string | null>(null);
-    const [userName, setUserName] = useState<string>('');
     const {login} = useLogin()
     const navigate = useNavigate()
     const {setIsAuthentify} = useAuth()
@@ -36,7 +35,7 @@ const Login = () => {
 
     return (
         <>
-            <Form email={email} setEmail={setEmail} password={password} setPassword={setPassword} error={error} handleSubmit={handleLogin} setUserName={setUserName} username={userName}/>
+            <Form email={email} setEmail={setEmail} password={password} setPassword={setPassword} error={error} handleSubmit={handleLogin} />
         </>
     )
 }

@@ -6,16 +6,14 @@ import { FORMTITLE } from '../models/FormTitle'
 interface UserDataIPros {
     email: string,
     password: string,
-    username: string,
     error: string | null | undefined,
     setEmail: React.Dispatch<React.SetStateAction<string>>,
     setPassword: React.Dispatch<React.SetStateAction<string>>,
-    setUserName: React.Dispatch<React.SetStateAction<string>>,
     handleSubmit: () => void
 }
 
 const Form = (props: UserDataIPros) => {
-    const {email, password, setEmail, setPassword, error, handleSubmit, username, setUserName} = props
+    const {email, password, setEmail, setPassword, error, handleSubmit} = props
     const [formTitle, setFormTitle] = useState<string>('')
     const url = window.location.pathname
 
@@ -35,19 +33,6 @@ const Form = (props: UserDataIPros) => {
         <Box sx={{display: 'flex', flexFlow: 'colum', height: '100%',   justifyContent: 'center', mx: 1, mt: 15}}>
             <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center',  width: 500, backgroundColor: '#DFF5FF', px: 5, py: 5, borderRadius: 3}}>
             <Typography variant='h5' sx={{ textAlign: 'center',  color: '#1664C0' }}>{formTitle}</Typography>
-            {formTitle === FORMTITLE.Register && (
-                <TextField
-                    error
-                    id="outlined-error"
-                    label="username"
-                    value={username}
-                    sx={{
-                        my: 3,
-                    }}
-                    inputProps={{ sx: { color: "#1664C0"} }}
-                    onChange={ (e) => setUserName(e.target.value)}
-                />
-            )}
                 <TextField
                     error
                     label="email"
@@ -80,8 +65,7 @@ const Form = (props: UserDataIPros) => {
                     <Typography variant='button' sx={{textDecoration:'none', width: 45, color: '#000'}} component={Link} to='/login'>Login</Typography>
                 )} 
                 {formTitle !== FORMTITLE.Register && (
-                    <Typography sx={{textDecoration:'none', width: 75, color: '#000'}} component={Link} to='/register'>S'inscrire</Typography>
-                )}
+                    <Typography sx={{textDecoration:'none', width: 75, color: '#000'}} component={Link} to='/register'>S'inscrire</Typography>                )}
             </Box>
         </Box>
     )
