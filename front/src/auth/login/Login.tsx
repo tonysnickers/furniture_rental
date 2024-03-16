@@ -3,7 +3,6 @@ import Form from '../../components/Form';
 import { useLogin } from '../../hooks/use-login';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/use-auth';
-import { Box } from '@mui/material';
 
 
 const Login = () => {
@@ -36,9 +35,9 @@ const Login = () => {
     }
 
     return (
-        <Box>
+        <>
             <Form email={email} setEmail={setEmail} password={password} setPassword={setPassword} error={error} handleSubmit={handleLogin} setUserName={setUserName} username={userName}/>
-        </Box>
+        </>
     )
 }
 

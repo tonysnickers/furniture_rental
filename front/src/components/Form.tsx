@@ -32,9 +32,9 @@ const Form = (props: UserDataIPros) => {
     
 
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', mt: '140px',  alignItems: 'center'}}>
-            <Box sx={{display: 'flex', flexDirection: 'column',  width: 500, backgroundColor: '#00284b', px: 3, py: 5, borderRadius: 3}}>
-            <Typography sx={{ textAlign: 'center', }}>{formTitle}</Typography>
+        <Box sx={{display: 'flex', flexFlow: 'colum', height: '100%',   justifyContent: 'center', mx: 1, mt: 15}}>
+            <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center',  width: 500, backgroundColor: '#DFF5FF', px: 5, py: 5, borderRadius: 3}}>
+            <Typography variant='h5' sx={{ textAlign: 'center',  color: '#1664C0' }}>{formTitle}</Typography>
             {formTitle === FORMTITLE.Register && (
                 <TextField
                     error
@@ -42,19 +42,23 @@ const Form = (props: UserDataIPros) => {
                     label="username"
                     value={username}
                     sx={{
-                        my: 3
+                        my: 3,
                     }}
+                    inputProps={{ sx: { color: "#1664C0"} }}
                     onChange={ (e) => setUserName(e.target.value)}
                 />
             )}
                 <TextField
                     error
-                    id="outlined-error"
                     label="email"
+                    variant="outlined"
                     value={email}
+                    
                     sx={{
-                        my: 3
+                        my: 3,
+                        borderRadius: 3,
                     }}
+                    inputProps={{ sx: { color: "#1664C0"} }}
                     onChange={ (e) => setEmail(e.target.value)}
                 />
                 <TextField
@@ -65,16 +69,18 @@ const Form = (props: UserDataIPros) => {
                     sx={{
                         my: 3
                     }}
+                    inputProps={{ sx: { color: "#1664C0" } }}
                     onChange={ (e) => setPassword(e.target.value)}
                 />
                 {error && <Typography color="error">{error}</Typography>}
-                <Button onClick={handleSubmit} variant="contained" color="primary" sx={{m: '0 auto', width: 100, textAlign: 'center'}}>
-                    {formTitle}
+                <Button onClick={handleSubmit} variant='contained' sx={{m: '15px auto', width: 100, textAlign: 'center', color: "#ffff"}}>
+                    Continuer
                 </Button>
-                {formTitle !== FORMTITLE.Login ? (
-                    <Typography sx={{textDecoration:'none'}} component={Link} to='/login'>Login</Typography>
-                ) : (
-                    <Typography sx={{textDecoration:'none'}} component={Link} to='/register'>S'inscrire</Typography>
+                {formTitle !== FORMTITLE.Login && (
+                    <Typography variant='button' sx={{textDecoration:'none', width: 45, color: '#000'}} component={Link} to='/login'>Login</Typography>
+                )} 
+                {formTitle !== FORMTITLE.Register && (
+                    <Typography sx={{textDecoration:'none', width: 75, color: '#000'}} component={Link} to='/register'>S'inscrire</Typography>
                 )}
             </Box>
         </Box>
