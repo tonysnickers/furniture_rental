@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material'
 import React from 'react'
-import AccountMenu from './Menu'
+import { IconMenu } from './IconMenu'
 
 const Header = () => {
     return (
@@ -8,7 +8,7 @@ const Header = () => {
             <Typography>Logo</Typography>
             <Box sx={{display: 'flex', justifyContent: 'space-around'}}>
                 <TextField/>
-                <AccountMenu/>
+                <IconMenu/>
             </Box>
         </Box>
     )
