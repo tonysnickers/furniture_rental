@@ -1,11 +1,12 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './components/Home';
+import {Home} from './components/Home';
 import Login from './auth/login/Login';
 import Register from './auth/register/Register';
 import Detail from './components/Detail';
 import { useAuth } from './hooks/use-auth';
 import { Box } from '@mui/material';
+import { Header } from './components/Header';
 
 
 
@@ -21,6 +22,7 @@ const PrivateRoute = (el: any) => {
 const App = () => {
   return (
     <Box>
+      <Header/>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
