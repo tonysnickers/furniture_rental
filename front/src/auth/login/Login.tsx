@@ -21,7 +21,6 @@ const Login = () => {
         }
         try {
             const res = await login(email, password)
-            console.log(res);
             setIsAuthentify(res.auth)
             const token = res.user.token
             localStorage.setItem('token', token)
