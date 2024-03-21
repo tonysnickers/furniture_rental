@@ -1,9 +1,10 @@
-import React from 'react'
+import { Box } from '@mui/material'
 
-const Detail = () => {
+export const Detail = () => {
   return (
-    <div>Detail</div>
+    <Box>
+      details
+    </Box>
   )
 }
 
-export default Detail
