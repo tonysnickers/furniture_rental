@@ -1,28 +1,18 @@
-import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material"
+import { Box, Grid, Typography } from "@mui/material"
 import { MainBoardCover } from "./MainBoardCover"
 import { useEffect, useState } from "react"
 import { useFurniture } from '../hooks/use-furniture';
+import { CardFurniture } from "./CardFurniture";
+import { Furniture } from "../models/furniture";
 
-interface Furniture {
-    name: string,
-    city: string,
-    description: string,
-    owner: string,
-    _id: string
-}
 
 export const Home = () => {
-    const {data, isLoading, error} = useFurniture()
+    const {data} = useFurniture()
     const [furnitures, setFurnitures] = useState<Furniture[]>()
 
     useEffect(() => {
         setFurnitures(data)
     }, [data])
-
-
-    console.log(setFurnitures);
-    console.log(isLoading);
-    console.log(error);
 
     return (
         <Box>
@@ -39,23 +29,7 @@ export const Home = () => {
             </Typography>
             <Grid container spacing={4}>
                 {furnitures?.map((furniture) => (
-                    <Grid item xl={2} lg={4} md={6} xs={12} key={furniture._id}>
-                        <Card >
-                            <CardMedia
-                                sx={{height: 140}}
-                                image={furniture._id}
-                                title="image"
-                            />
-                            <CardContent>
-                                <Typography variant="h5">
-                                    {furniture.name}
-                                </Typography>
-                                <Typography>
-                                    {furniture.description}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                    <CardFurniture furniture={furniture}/>
                 ))}
             </Grid>
         </Box>
