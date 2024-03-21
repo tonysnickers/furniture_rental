@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import React from 'react'
 import { Furniture } from '../models/furniture';
 
@@ -11,12 +11,22 @@ export const CardFurniture = ({furniture}: CardFurnitureProps) => {
     const image = furniture.images.length > 0 ? furniture.images[0].url : '';
 
     return (
-        <Grid item xl={2} lg={4} md={6} xs={12} key={furniture._id}>
-            <Card >
+        <Card 
+            sx={{
+                height: {xl: 500, xs: 400},
+                mx: 2,
+                my: 4,
+                borderRadius: 5
+                }}
+            >
                 <CardMedia
-                    sx={{height: 140}}
+                    component='img'
+                    sx={{
+                        height: 200,
+                    }}
+                    
                     image={image}
-                    title="image"
+                    alt={furniture.name + ' image'}
                 />
                 <CardContent>
                     <Typography variant="h5">
@@ -27,7 +37,6 @@ export const CardFurniture = ({furniture}: CardFurnitureProps) => {
                     </Typography>
                 </CardContent>
             </Card>
-        </Grid>
     )
 }
 

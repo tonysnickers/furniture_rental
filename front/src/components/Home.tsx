@@ -24,14 +24,16 @@ export const Home = () => {
                 sx={{ 
                     display: 'flex', 
                     justifyContent: 'center', 
-                    my: 5
+                    mt: 5
                 }}
             >
-                Dernières annonce
+                Dernières annonces
             </Typography>
-            <Grid container spacing={4}>
+            <Grid container sx={{p:6, width: '100%'}} spacing={2}>
                 {furnitures?.map((furniture) => (
-                    <CardFurniture key={furniture._id} furniture={furniture}/>
+                    <Grid item xl={2} lg={3} md={6} xs={12} key={furniture._id} >
+                        <CardFurniture key={furniture._id} furniture={furniture}/>
+                    </Grid>
                 ))}
             </Grid>
         </Box>
