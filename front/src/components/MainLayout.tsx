@@ -1,14 +1,12 @@
-import { Box, Container } from "@mui/material"
+import { Container } from "@mui/material"
 import { Outlet } from "react-router-dom"
 import { Header } from "./Header"
 
 export const MainLayout = () => {
     return (
-        <Container>
+        <Container disableGutters maxWidth={false}>
             <Header/>
-            <Box component='div' >
-                <Outlet/>
-            </Box>
+            <Outlet/>
         </Container>
     )
 }

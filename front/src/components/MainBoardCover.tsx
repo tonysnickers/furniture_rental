@@ -10,6 +10,7 @@ export const MainBoardCover = () => {
                     backgroundRepeat: 'no-repeat',
                     width: '100%',
                     height: '80vh',
+                    m: 0,
                     display: { xs: 'none', md: 'flex'  }
                 }}
             >

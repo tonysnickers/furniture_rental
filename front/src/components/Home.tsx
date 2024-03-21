@@ -25,11 +25,7 @@ export const Home = () => {
     console.log(error);
 
     return (
-        <Box
-            sx={{
-                p: 2
-            }}
-        >
+        <Box>
             <MainBoardCover/>
             <Typography 
                 variant="h5" 
@@ -41,32 +37,27 @@ export const Home = () => {
             >
                 Dernières annonce
             </Typography>
-            {/* <Grid container spacing={6}>
+            <Grid container spacing={4}>
                 {furnitures?.map((furniture) => (
-                    <Card>
-                        <CardMedia
-                            sx={{height: 140}}
-                            image={furniture._id}
-                            title="image"
-                        />
-                        <CardContent>
-                            <Typography variant="h5">
-                                {furniture.name}
-                            </Typography>
-                            <Typography>
-                                {furniture.description}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-
+                    <Grid item xl={2} lg={4} md={6} xs={12} key={furniture._id}>
+                        <Card >
+                            <CardMedia
+                                sx={{height: 140}}
+                                image={furniture._id}
+                                title="image"
+                            />
+                            <CardContent>
+                                <Typography variant="h5">
+                                    {furniture.name}
+                                </Typography>
+                                <Typography>
+                                    {furniture.description}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 ))}
-            </Grid> */}
-            <ul>
-                {furnitures?.map((furniture) => (
-                    <li>{furniture.name}- {furniture.description}</li>
-                ))}
-            </ul>
-        
+            </Grid>
         </Box>
     )
 }

@@ -6,7 +6,7 @@ import Detail from './components/Detail';
 import { useAuth } from './hooks/use-auth';
 import { Box } from '@mui/material';
 import { MainLayout } from './components/MainLayout';
-import { Home } from '@mui/icons-material';
+import { Home } from './components/Home';
 
 
 
@@ -17,16 +17,14 @@ const PrivateRoute = (el: any) => {
 };
 
 
-
-
-const App = () => {
+export const App = () => {
   return (
     <Box>
       <Routes>
         <Route path="/" element={<MainLayout/> } >
+          <Route path="/" element={<Home/> } />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/furnitures" element={<Home/> } />
           {/* <Route path="/furnitures" element={}  /> */}
           <Route path="/details" element={PrivateRoute(<Detail/>) } />
         </Route>
@@ -34,5 +32,3 @@ const App = () => {
     </Box>
   );
 };
-
-export default App;
