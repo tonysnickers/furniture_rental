@@ -1,25 +1,16 @@
 import axios from 'axios'
 import { useQuery } from 'react-query';
-// import { create } from 'zustand'
 
 
 const fetchFurniture = async() => {
     try {
         const furniture = await axios.get('http://localhost:4000/furniture')
-        const res = furniture.data.furniture
-        // console.log(res);
-        
+        const res = furniture.data.furniture        
         return res
     } catch (error) {
-        
+        return error
     }
 }
-
-
-// export const useFurniture = create((set) => ({
-//     furniture: [],
-//     getFurniture: () => set((state: { set: any }) => ({state: state.s}))
-// }))
 
 
 export const useFurniture = () => {
