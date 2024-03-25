@@ -14,7 +14,7 @@ export const CardFurniture = ({furniture}: CardFurnitureProps) => {
 
     return (
         <Card
-            onClick={() => navigate(`details/${furniture._id}`)}
+            onClick={() => navigate(`/details/${furniture._id}`)}
             sx={{
                 height: {xl: 500, xs: 400},
                 mx: 2,

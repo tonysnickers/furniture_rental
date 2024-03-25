@@ -7,7 +7,7 @@ export interface Furniture {
     _id: string
 }
 
-interface image {
+export interface image {
     _id: string,
     url: string
 }

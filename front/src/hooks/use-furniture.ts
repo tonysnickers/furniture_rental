@@ -1,24 +1,32 @@
-import axios from 'axios'
-import { useQuery } from 'react-query';
+import axios from "axios";
+import { useQuery } from "react-query";
 
 
-const fetchFurniture = async() => {
+const getfurniture = async (params: string) => {
     try {
-        const furniture = await axios.get('http://localhost:4000/furniture')
-        const res = furniture.data.furniture        
+        const res = await axios.get(`http://localhost:4000/furniture/${params}`).then((res) => res.data)
+        console.log(res);
         return res
     } catch (error) {
-        return error
+        console.error('Erreur lors de la récupération des données de meuble :', error);
+        throw new Error('Impossible de récupérer les données de meuble');
     }
 }
 
+export const useFurniture = (params: string) => {
+    const {data, isLoading, error } = useQuery(['furniture', params], () => getfurniture(params))
+    console.log(data);
+    if (isLoading) {
+        console.log('Chargement des données de meubles...');
+    }
 
-export const useFurniture = () => {
-    const {data, isLoading, error,} = useQuery(['furniture'], fetchFurniture)
+    if (error) {
+        console.error('Erreur lors de la récupération des données de meubles :', error);
+    }
+
     return {
-        data: data || [],
-        isLoading, 
-        error,
+        furniture: data || {},
+        isLoading,
+        error
     }
 }
-
