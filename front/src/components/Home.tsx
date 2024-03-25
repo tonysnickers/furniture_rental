@@ -1,12 +1,12 @@
 import { Box, Grid, Typography } from "@mui/material"
 import { MainBoardCover } from "./MainBoardCover"
-import { useFurniture } from '../hooks/use-furniture';
+import { useFurnitures } from '../hooks/use-furnitures';
 import { CardFurniture } from "./CardFurniture";
 import { Furniture } from '../models/furniture';
 
 
 export const Home = () => {
-    const { data } = useFurniture()
+    const { data } = useFurnitures()
     return (
         <Box>
             <MainBoardCover/>

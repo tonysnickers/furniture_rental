@@ -1,4 +1,4 @@
-import { Container } from "@mui/material"
+import { Box, Container } from "@mui/material"
 import { Outlet } from "react-router-dom"
 import { Header } from "./Header"
 
@@ -6,7 +6,9 @@ export const MainLayout = () => {
     return (
         <Container disableGutters maxWidth={false}>
             <Header/>
-            <Outlet/>
+            <Box component="div" sx={{ marginTop: 10 }}>
+                <Outlet/>
+            </Box>
         </Container>
     )
 }
