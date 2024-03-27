@@ -3,11 +3,11 @@ export interface Furniture {
     city: string,
     description: string,
     owner: string,
-    images: image[],
+    images: Image[],
     _id: string
 }
 
-export interface image {
+export interface Image {
     _id: string,
     url: string
 }
